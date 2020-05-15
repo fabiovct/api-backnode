@@ -24,22 +24,31 @@ module.exports = {
 
         
 
-        const file = req.file['filename']
+        
+        if(req.file){
+            const file = req.file['filename']
+            fs.readFile('./uploads/'+file,'utf8', function(err,data){
+                var result = convert.xml2js(data, { compact: true });
+                //console.log(result['NFe']['infNFe']['ide']['nNF']['_text'])
+                res.json(result)
+            });
+    
+            //fs.unlink("./uploads/"+file)
+    
+            fs.unlink("./uploads/"+file, function (err) {            
+                if (err) {                                                 
+                    console.error(err);                                    
+                }                                                          
+               //console.log('File has been Deleted');                           
+            });
+            
+        }else{
+            res.json('error')
+            
+        }
+        
 
-        fs.readFile('./uploads/'+file,'utf8', function(err,data){
-            var result = convert.xml2js(data, { compact: true });
-            console.log(result['NFe']['infNFe']['ide']['nNF']['_text'])
-            res.json(result)
-        });
-
-        //fs.unlink("./uploads/"+file)
-
-        fs.unlink("./uploads/"+file, function (err) {            
-            if (err) {                                                 
-                console.error(err);                                    
-            }                                                          
-           console.log('File has been Deleted');                           
-        }); 
+        
     }
     
 }

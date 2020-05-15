@@ -28,7 +28,7 @@ routes.use(bodyParser.urlencoded({extended : true}));
 routes.use(bodyParser.json());
 
 routes.use(express.static(__dirname + '/'));*/
-//routes.get('/users', UsersAdminController.list);
+routes.get('/users', UsersAdminController.list);
 
 routes.post('/nfxml', multer(uploadConfig).single("file"), RequestController.readxml);
 
